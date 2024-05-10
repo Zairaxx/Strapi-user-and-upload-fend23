@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
+      integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <h1>Welcome, <span id="user">User</span></h1>
+    <div id="login-section">
+      <input type="text" placeholder="Username or email" id="identifier" />
+      <input type="password" placeholder="Password" id="password" />
+      <button id="loginBtn">Login</button>
+    </div>
+
+    <div>
+      <h2>My todos</h2>
+      <input type="text" placeholder="Title" id="todoTitle" />
+      <button id="addTodoBtn">Add todo</button>
+      <ul id="todoList"></ul>
+    </div>
+  </body>
+</html>
