@@ -14,25 +14,37 @@ const login = async () => {
 };
 
 const addTodo = async () => {
+  //Title input
   let todoTitle = document.querySelector("#todoTitle").value;
 
+  //Image input
+  let imageFiles = document.querySelector("#fileInput").files;
+  let formData = new FormData();
+  formData.append("files", imageFiles[0]);
+
+  //Get user id from local storage
   let user = JSON.parse(sessionStorage.getItem("user"));
   let userId = user.id.toString();
-  await axios.post(
-    "http://localhost:1337/api/todos",
-    {
-      data: {
-        title: todoTitle,
-        user: userId,
-        // completed:false <--- Behövs inte, pga default-värde i Strapi
+
+  //Post image and then todo containing the image id
+  axios.post("http://localhost:1337/api/upload", formData).then((response) => {
+    axios.post(
+      "http://localhost:1337/api/todos",
+      {
+        data: {
+          title: todoTitle,
+          user: userId,
+          img: response.data[0].id,
+          // completed:false <--- Behövs inte, pga default-värde i Strapi
+        },
       },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
-    }
-  );
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+  });
 
   renderPage();
 };
@@ -47,7 +59,7 @@ const renderPage = async () => {
   //Render todos
 
   let loggedInUser = await axios.get(
-    "http://localhost:1337/api/users/me?populate=*",
+    "http://localhost:1337/api/users/me?populate=deep,3",
     {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -63,7 +75,10 @@ const renderPage = async () => {
   document.querySelector("#todoList").innerHTML = "";
 
   todos.forEach((todo) => {
-    document.querySelector("#todoList").innerHTML += `<li>${todo.title}</li>`;
+    document.querySelector("#todoList").innerHTML += `<li>
+    <p>${todo.title}</p>
+    <img src="http://localhost:1337${todo.img?.url}" height="100"/>
+    </li>`;
   });
 };
 
