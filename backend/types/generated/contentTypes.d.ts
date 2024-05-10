@@ -381,6 +381,7 @@ export interface ApiTodoTodo extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    img: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'> &
